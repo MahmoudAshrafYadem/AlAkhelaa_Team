@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1a7a4a">
-<title>الإخلاء - شاركنا بفكرتك</title>
+<title>الإخلاء - فكرتك وصلت</title>
 <link rel="manifest" href="./manifest.json">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
@@ -36,6 +36,7 @@
   input, textarea { width:100%; padding:12px; border:2px solid var(--border); border-radius:12px; font-family:'Cairo',sans-serif; margin-bottom:15px; outline:none; }
   
   .submit-btn { width:100%; padding:15px; background:linear-gradient(135deg,var(--green),var(--gl)); color:white; border:none; border-radius:12px; font-weight:900; font-size:17px; cursor:pointer; }
+  .submit-btn:active { transform: scale(0.97); transition: transform 0.1s; }
 
   /* IDEA CARD */
   .idea-card { border-right:5px solid var(--green); position: relative; }
@@ -45,6 +46,10 @@
   .check-container { display: flex; align-items: center; gap: 8px; background: var(--gbg); padding: 5px 12px; border-radius: 20px; width: fit-content; margin-top: 10px; cursor: pointer; }
   .check-container input { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--green); }
   .check-text { font-size: 13px; font-weight: 700; color: var(--green); }
+
+  /* EDIT OPTIONS */
+  .idea-content { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-edit-inline { background: none; border: none; color: #555; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; }
 
   /* PWA POPUP */
   .pwa-popup { display:none; position:fixed; bottom:20px; left:20px; right:20px; background:var(--white); padding:20px; border-radius:20px; box-shadow:0 -5px 25px rgba(0,0,0,0.2); z-index:2000; text-align:center; border: 2px solid var(--green); }
@@ -61,7 +66,7 @@
 
 <div class="header">
   <img src="WhatsApp Image 2026-03-25 at 3.29.24 AM.jpeg" class="logo-img" alt="لوجو">
-  <h1>شاركنا بفكرتك</h1>
+  <h1>فكرتك وصلت</h1>
   <p>الأخلاء: معًا لغدٍ أفضل</p>
 </div>
 
@@ -111,7 +116,7 @@ async function submitIdea() {
   const name = document.getElementById('inp-name').value;
   const idea = document.getElementById('inp-idea').value;
   const impl = document.getElementById('inp-impl').value;
-  if(!name || !idea || !impl) return alert("من فضلك كمل البيانات");
+  if(!name || !idea || !impl) return alert("من فضلك كمل البيانات الأول يا بطل");
 
   const formData = new URLSearchParams();
   formData.append('action', 'add');
@@ -120,38 +125,65 @@ async function submitIdea() {
   formData.append('التنفيذ', impl);
 
   try {
-    await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
-    alert("شكراً! فكرتك وصلت ❤️");
-    location.reload(); 
+    const response = await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
+    alert("فكرتك وصلت ، شكرا ليك ❤️");
+    document.getElementById('inp-name').value = '';
+    document.getElementById('inp-idea').value = '';
+    document.getElementById('inp-impl').value = '';
+    showScreen('ideas'); // Move to ideas tab automatically
   } catch(e) { alert("خطأ في الإرسال"); }
 }
 
-// --- 3. LOAD IDEAS (Older to Newer) ---
+// --- 3. LOAD IDEAS (Older to Newer, showing edit options) ---
 async function loadIdeas() {
   const list = document.getElementById('ideas-list');
   try {
     const r = await fetch(scriptURL + "?nocache=" + Date.now());
     const data = await r.json();
     
-    // الترتيب من الأقدم للأحدث (حسب ترتيب وصولها للشيت)
     list.innerHTML = data.map(i => `
       <div class="idea-card">
-        <span class="idea-name">👤 ${i.الاسم}</span>
-        <p><strong>💡 الفكرة:</strong> ${i.الفكرة}</p>
-        <p style="margin-top:5px"><strong>🛠️ التنفيذ:</strong> ${i.التنفيذ}</p>
+        <span class="idea-name">👤 ${esc(i.الاسم)}</span>
+        <p id="content-idea-${i.id}"><strong>💡 الفكرة:</strong> ${esc(i.الفكرة)}</p>
+        <p id="content-impl-${i.id}" style="margin-top:5px"><strong>🛠️ التنفيذ:</strong> ${esc(i.التنفيذ)}</p>
         
         <label class="check-container">
-            <input type="checkbox" id="check-${i.id}" onchange="saveCheck(${i.id}, this.checked)">
+            <input type="checkbox" ${localStorage.getItem('task-'+i.id) === 'true' ? 'checked' : ''} onchange="localStorage.setItem('task-'+${i.id}, this.checked)">
             <span class="check-text">اتنفذت؟</span>
         </label>
+        
+        <div class="idea-content">
+            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'الفكرة', '💡 عدل فكرتك')">📝 تعديل الفكرة</button>
+            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'التنفيذ', '🛠️ عدل مقترح التنفيذ')">📝 تعديل التنفيذ</button>
+        </div>
       </div>
     `).join('');
   } catch(e) { list.innerHTML = "فشل في تحميل الأفكار."; }
 }
 
-// دالة لحفظ حالة الـ Checkbox محلياً (كدا بيبقى تفاعلي)
-function saveCheck(id, status) {
-    localStorage.setItem('task-' + id, status);
+// --- 4. INLINE EDITING ---
+async function editContent(id, type, promptTitle) {
+    let contentNode = document.getElementById(`content-${type === 'الفكرة' ? 'idea' : 'impl'}-${id}`);
+    let oldText = contentNode.innerText.replace(type === 'الفكرة' ? '💡 الفكرة: ' : '🛠️ التنفيذ: ', '').trim();
+    
+    let newText = prompt(promptTitle, oldText);
+    if (newText !== null && newText !== "" && newText !== oldText) {
+        contentNode.innerHTML = `<strong>${type === 'الفكرة' ? '💡 الفكرة:' : '🛠️ التنفيذ:'}</strong> ${esc(newText)} (جاري التحديث...)`;
+
+        const f = new URLSearchParams();
+        f.append('action', 'edit'); 
+        f.append('id', id);
+        // Use the original column name based on type
+        f.append(type === 'الفكرة' ? 'الفكرة' : 'التنفيذ', newText);
+
+        try {
+            await fetch(scriptURL, { method: 'POST', body: f, mode: 'no-cors' });
+            loadIdeas(); // Reload to remove "(جاري التحديث...)"
+        } catch(e) { 
+            alert("فشل التحديث، جرب تاني.");
+            loadIdeas();
+        }
+    }
 }
 
 function showScreen(n) {
@@ -162,7 +194,10 @@ function showScreen(n) {
   if(n === 'ideas') loadIdeas();
 }
 
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+loadIdeas(); // Initial load for the other tab if active
 </script>
 </body>
 </html>
