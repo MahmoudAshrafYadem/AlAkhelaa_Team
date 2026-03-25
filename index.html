@@ -2,308 +2,202 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1a7a4a">
-
-<title>شاركنا بفكرتك</title>
-
+<title>الإخلاء - فكرتك وصلت</title>
 <link rel="manifest" href="./manifest.json">
-
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root {
+    --green:#1a7a4a; --gl:#27ae60; --gbg:#e8f5ee;
+    --text:#2d4a38; --gray:#6b8a76; --white:#fff; --border:#c8e6d4;
+  }
+  body { font-family:'Cairo',sans-serif; background:linear-gradient(135deg,#e8f5ee,#d4edde,#c8e6d4); min-height:100vh; color:var(--text); }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+  /* HEADER */
+  .header { background:linear-gradient(135deg,var(--green),#145e38); padding:40px 20px; text-align:center; color:white; }
+  .logo-img { width:110px; height:110px; border-radius:50%; background:var(--white); margin:0 auto 15px; display:block; border:4px solid var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); object-fit: cover; }
+  .header h1 { font-size:22px; font-weight:900; margin-bottom: 5px; }
+  .header p { font-size:16px; font-weight:600; opacity: 0.9; }
 
-:root {
-    --green:#1a7a4a;
-    --gl:#27ae60;
-    --bg:#e8f5ee;
-    --border:#c8e6d4;
-}
+  /* TABS */
+  .tabs { display:flex; background:var(--white); border-bottom:2px solid var(--border); position:sticky; top:0; z-index:100; }
+  .tab-btn { flex:1; padding:15px; border:none; background:transparent; font-family:'Cairo',sans-serif; font-size:15px; font-weight:700; color:var(--gray); cursor:pointer; }
+  .tab-btn.active { color:var(--green); border-bottom:3px solid var(--green); background:var(--gbg); }
 
-body {
-    font-family:'Cairo',sans-serif;
-    background:linear-gradient(135deg,#e8f5ee,#d4edde);
-}
+  /* SCREENS */
+  .screen { display:none; padding:20px 15px 100px; }
+  .screen.active { display:block; }
 
-/* HEADER */
-.header {
-    text-align:center;
-    padding:20px;
-    background:linear-gradient(135deg,#1a7a4a,#145e38);
-    color:white;
-}
+  /* CARDS */
+  .form-card, .idea-card { background:var(--white); border-radius:18px; padding:20px; box-shadow:0 2px 12px rgba(26,122,74,.1); margin-bottom:15px; }
+  .fl { font-size:14px; font-weight:700; margin-bottom:7px; display:block; }
+  input, textarea { width:100%; padding:12px; border:2px solid var(--border); border-radius:12px; font-family:'Cairo',sans-serif; margin-bottom:15px; outline:none; }
+  
+  .submit-btn { width:100%; padding:15px; background:linear-gradient(135deg,var(--green),var(--gl)); color:white; border:none; border-radius:12px; font-weight:900; font-size:17px; cursor:pointer; }
+  .submit-btn:active { transform: scale(0.97); transition: transform 0.1s; }
 
-.logo-img {
-    width:110px;
-    height:110px;
-    border-radius:20px;
-    background:white;
-    padding:5px;
-}
+  /* IDEA CARD */
+  .idea-card { border-right:5px solid var(--green); position: relative; }
+  .idea-name { font-weight:900; color:var(--green); margin-bottom: 10px; display: block; }
+  
+  /* CHECKBOX STYLE */
+  .check-container { display: flex; align-items: center; gap: 8px; background: var(--gbg); padding: 5px 12px; border-radius: 20px; width: fit-content; margin-top: 10px; cursor: pointer; }
+  .check-container input { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--green); }
+  .check-text { font-size: 13px; font-weight: 700; color: var(--green); }
 
-.header h1 { font-weight:900; margin-top:10px; }
-.header p { margin-top:5px; font-weight:700; }
+  /* EDIT OPTIONS */
+  .idea-content { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-edit-inline { background: none; border: none; color: #555; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; }
 
-/* TABS */
-.tabs { display:flex; background:white; }
-.tab-btn { flex:1; padding:12px; border:none; background:none; font-weight:700; cursor:pointer; }
-.tab-btn.active { color:var(--green); border-bottom:3px solid var(--green); }
-
-/* SCREENS */
-.screen { display:none; padding:15px; }
-.screen.active { display:block; }
-
-/* FORM */
-.form-card, .idea-card {
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:12px;
-}
-
-input, textarea {
-    width:100%;
-    padding:10px;
-    border:2px solid var(--border);
-    border-radius:10px;
-    margin-bottom:10px;
-}
-
-.submit-btn {
-    width:100%;
-    padding:12px;
-    background:linear-gradient(135deg,#1a7a4a,#27ae60);
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-weight:900;
-}
-
-/* IDEA */
-.idea-meta {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.idea-name { font-weight:900; color:#1a7a4a; }
-
-.idea-actions {
-    display:flex;
-    align-items:center;
-    gap:6px;
-}
-
-.idea-check input {
-    width:18px;
-    height:18px;
-}
-
-/* buttons small */
-.small-btn {
-    width:28px;
-    height:28px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.edit { background:#ffc107; }
-.delete { background:#dc3545; color:white; }
-
-/* PWA */
-.pwa-overlay {
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.6);
-    justify-content:center;
-    align-items:center;
-}
-
-.pwa-overlay.show { display:flex; }
-
-.pwa-box {
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-}
+  /* PWA POPUP */
+  .pwa-popup { display:none; position:fixed; bottom:20px; left:20px; right:20px; background:var(--white); padding:20px; border-radius:20px; box-shadow:0 -5px 25px rgba(0,0,0,0.2); z-index:2000; text-align:center; border: 2px solid var(--green); }
+  .pwa-popup.show { display:block; animation: slideUp 0.5s ease; }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 </style>
 </head>
-
 <body>
 
-<!-- PWA -->
-<div class="pwa-overlay" id="pwa-overlay">
-    <div class="pwa-box">
-        <p>📲 ثبت التطبيق للوصول السريع</p>
-        <button class="submit-btn" id="install-btn">تثبيت</button>
-    </div>
+<div class="pwa-popup" id="pwa-popup">
+  <p style="margin-bottom:15px; font-weight:700;">ضيف التطبيق لشاشتك الرئيسية عشان توصله بسهولة! 📲</p>
+  <button class="submit-btn" id="btn-install">تثبيت الآن</button>
 </div>
 
-<!-- HEADER -->
 <div class="header">
-    <img src="logo.png" class="logo-img">
-    <h1>شاركنا بفكرتك</h1>
-    <p>"الإخلاء": معًا لغدٍ أفضل</p>
+  <img src="WhatsApp Image 2026-03-25 at 3.29.24 AM.jpeg" class="logo-img" alt="لوجو">
+  <h1>فكرتك وصلت</h1>
+  <p>الأخلاء: معًا لغدٍ أفضل</p>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
-    <button class="tab-btn active" onclick="showScreen('form')">💡 فكرة</button>
-    <button class="tab-btn" onclick="showScreen('ideas')">📋 الأفكار</button>
+  <button class="tab-btn active" id="tab-form" onclick="showScreen('form')">💡 فكرة جديدة</button>
+  <button class="tab-btn" id="tab-ideas" onclick="showScreen('ideas')">📋 الأفكار</button>
 </div>
 
-<!-- FORM -->
 <div class="screen active" id="screen-form">
-    <div class="form-card">
-        <input id="inp-name" placeholder="اسمك">
-        <textarea id="inp-idea" placeholder="الفكرة"></textarea>
-        <textarea id="inp-impl" placeholder="التنفيذ"></textarea>
-        <button class="submit-btn" onclick="submitIdea()">إرسال</button>
-    </div>
+  <div class="form-card">
+    <label class="fl">👤 اسمك</label>
+    <input type="text" id="inp-name" placeholder="اكتب اسمك هنا...">
+    <label class="fl">💡 الفكرة</label>
+    <textarea id="inp-idea" rows="3" placeholder="إيه الفكرة اللي في دماغك؟"></textarea>
+    <label class="fl">🛠️ مقترح التنفيذ</label>
+    <textarea id="inp-impl" rows="3" placeholder="إزاي نقدر ننفذها؟"></textarea>
+    <button class="submit-btn" onclick="submitIdea()">✅ ابعت فكرتك</button>
+  </div>
 </div>
 
-<!-- IDEAS -->
 <div class="screen" id="screen-ideas">
-    <div id="ideas-list"></div>
+  <div id="ideas-list"><p style="text-align:center; color:var(--gray)">جاري تحميل الأفكار...</p></div>
 </div>
 
 <script>
-const scriptURL = "PUT_YOUR_SCRIPT_URL_HERE";
+const scriptURL = "https://script.google.com/macros/s/AKfycbx9XVWoWg5FKj9yrdWdNQ-bPopBRNQdq268UnKxXsGnLDinmOI93w5jhRyOiukH01lkNw/exec";
 
-/* PWA */
+// --- 1. PWA INSTALL LOGIC (Pop up) ---
 let deferredPrompt;
-const overlay = document.getElementById("pwa-overlay");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    if (!localStorage.getItem("pwaShown")) {
-        overlay.classList.add("show");
-        localStorage.setItem("pwaShown", "true");
-    }
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwa-popup').classList.add('show');
 });
 
-document.getElementById("install-btn").onclick = async () => {
-    overlay.classList.remove("show");
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-    }
-};
+document.getElementById('btn-install').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') document.getElementById('pwa-popup').classList.remove('show');
+    deferredPrompt = null;
+  }
+});
 
-/* SUBMIT */
+// --- 2. SUBMIT IDEA ---
 async function submitIdea() {
-    const name = document.getElementById("inp-name").value;
-    const idea = document.getElementById("inp-idea").value;
-    const impl = document.getElementById("inp-impl").value;
+  const name = document.getElementById('inp-name').value;
+  const idea = document.getElementById('inp-idea').value;
+  const impl = document.getElementById('inp-impl').value;
+  if(!name || !idea || !impl) return alert("من فضلك كمل البيانات الأول يا بطل");
 
-    if (!name || !idea || !impl) {
-        alert("كمل البيانات");
-        return;
-    }
+  const formData = new URLSearchParams();
+  formData.append('action', 'add');
+  formData.append('الاسم', name);
+  formData.append('الفكرة', idea);
+  formData.append('التنفيذ', impl);
 
-    const f = new URLSearchParams();
-    f.append("action", "add");
-    f.append("الاسم", name);
-    f.append("الفكرة", idea);
-    f.append("التنفيذ", impl);
-
-    await fetch(scriptURL, { method: "POST", body: f });
-
-    document.getElementById("inp-name").value = "";
-    document.getElementById("inp-idea").value = "";
-    document.getElementById("inp-impl").value = "";
-
-    loadIdeas();
+  try {
+    const response = await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
+    alert("فكرتك وصلت ، شكرا ليك ❤️");
+    document.getElementById('inp-name').value = '';
+    document.getElementById('inp-idea').value = '';
+    document.getElementById('inp-impl').value = '';
+    showScreen('ideas'); // Move to ideas tab automatically
+  } catch(e) { alert("خطأ في الإرسال"); }
 }
 
-/* LOAD */
+// --- 3. LOAD IDEAS (Older to Newer, showing edit options) ---
 async function loadIdeas() {
-    const r = await fetch(scriptURL + "?t=" + Date.now());
+  const list = document.getElementById('ideas-list');
+  try {
+    const r = await fetch(scriptURL + "?nocache=" + Date.now());
     const data = await r.json();
-
-    const container = document.getElementById("ideas-list");
-
-    if (!data.length) {
-        container.innerHTML = "<p>لا توجد أفكار بعد</p>";
-        return;
-    }
-
-    container.innerHTML = data.map(i => `
-    <div class="idea-card">
-        <div class="idea-meta">
-
-            <div class="idea-name">👤 ${i.الاسم}</div>
-
-            <div class="idea-actions">
-
-                <input type="checkbox" ${i.التنفيذ === 'اتنفذت' ? 'checked' : ''}>
-
-                <button class="small-btn edit"
-                onclick="editIdea(${i.id}, \`${i.الفكرة}\`)">✏️</button>
-
-                <button class="small-btn delete"
-                onclick="deleteIdea(${i.id})">🗑️</button>
-
-            </div>
-
+    
+    list.innerHTML = data.map(i => `
+      <div class="idea-card">
+        <span class="idea-name">👤 ${esc(i.الاسم)}</span>
+        <p id="content-idea-${i.id}"><strong>💡 الفكرة:</strong> ${esc(i.الفكرة)}</p>
+        <p id="content-impl-${i.id}" style="margin-top:5px"><strong>🛠️ التنفيذ:</strong> ${esc(i.التنفيذ)}</p>
+        
+        <label class="check-container">
+            <input type="checkbox" ${localStorage.getItem('task-'+i.id) === 'true' ? 'checked' : ''} onchange="localStorage.setItem('task-'+${i.id}, this.checked)">
+            <span class="check-text">اتنفذت؟</span>
+        </label>
+        
+        <div class="idea-content">
+            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'الفكرة', '💡 عدل فكرتك')">📝 تعديل الفكرة</button>
+            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'التنفيذ', '🛠️ عدل مقترح التنفيذ')">📝 تعديل التنفيذ</button>
         </div>
-
-        <p>💡 ${i.الفكرة}</p>
-        <p>🛠️ ${i.التنفيذ}</p>
-    </div>
-    `).join("");
+      </div>
+    `).join('');
+  } catch(e) { list.innerHTML = "فشل في تحميل الأفكار."; }
 }
 
-/* DELETE */
-async function deleteIdea(id) {
-    if (!confirm("حذف؟")) return;
+// --- 4. INLINE EDITING ---
+async function editContent(id, type, promptTitle) {
+    let contentNode = document.getElementById(`content-${type === 'الفكرة' ? 'idea' : 'impl'}-${id}`);
+    let oldText = contentNode.innerText.replace(type === 'الفكرة' ? '💡 الفكرة: ' : '🛠️ التنفيذ: ', '').trim();
+    
+    let newText = prompt(promptTitle, oldText);
+    if (newText !== null && newText !== "" && newText !== oldText) {
+        contentNode.innerHTML = `<strong>${type === 'الفكرة' ? '💡 الفكرة:' : '🛠️ التنفيذ:'}</strong> ${esc(newText)} (جاري التحديث...)`;
 
-    const f = new URLSearchParams();
-    f.append("action", "delete");
-    f.append("id", id);
+        const f = new URLSearchParams();
+        f.append('action', 'edit'); 
+        f.append('id', id);
+        // Use the original column name based on type
+        f.append(type === 'الفكرة' ? 'الفكرة' : 'التنفيذ', newText);
 
-    await fetch(scriptURL, { method: "POST", body: f });
-    loadIdeas();
+        try {
+            await fetch(scriptURL, { method: 'POST', body: f, mode: 'no-cors' });
+            loadIdeas(); // Reload to remove "(جاري التحديث...)"
+        } catch(e) { 
+            alert("فشل التحديث، جرب تاني.");
+            loadIdeas();
+        }
+    }
 }
 
-/* EDIT */
-async function editIdea(id, oldIdea) {
-    const n = prompt("عدل:", oldIdea);
-    if (!n) return;
-
-    const f = new URLSearchParams();
-    f.append("action", "edit");
-    f.append("id", id);
-    f.append("الفكرة", n);
-
-    await fetch(scriptURL, { method: "POST", body: f });
-    loadIdeas();
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active');
+  if(n === 'ideas') loadIdeas();
 }
 
-/* TABS */
-function showScreen(s) {
-    document.querySelectorAll(".screen").forEach(e => e.classList.remove("active"));
-    document.getElementById("screen-" + s).classList.add("active");
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    event.currentTarget.classList.add("active");
-
-    if (s === "ideas") loadIdeas();
-}
-
-/* SW */
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js");
-}
-
-loadIdeas();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+loadIdeas(); // Initial load for the other tab if active
 </script>
-
 </body>
 </html>
