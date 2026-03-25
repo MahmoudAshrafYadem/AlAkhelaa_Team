@@ -96,19 +96,33 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbx9XVWoWg5FKj9yrdWdNQ
 
 // --- 1. PWA INSTALL LOGIC (Pop up) ---
 let deferredPrompt;
+const popup = document.getElementById('pwa-popup');
+
+// 👇 fallback يظهر مرة واحدة بعد 3 ثواني
+setTimeout(() => {
+  if (!localStorage.getItem("pwaShown")) {
+    popup.classList.add('show');
+    localStorage.setItem("pwaShown", "true");
+  }
+}, 3000);
+
+// 👇 event الأساسي
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('pwa-popup').classList.add('show');
+
+  popup.classList.add('show');
 });
 
+// 👇 زرار التثبيت
 document.getElementById('btn-install').addEventListener('click', async () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') document.getElementById('pwa-popup').classList.remove('show');
-    deferredPrompt = null;
+    await deferredPrompt.userChoice;
+  } else {
+    alert("من فضلك استخدم Add to Home Screen من المتصفح");
   }
+  popup.classList.remove('show');
 });
 
 // --- 2. SUBMIT IDEA ---
@@ -133,7 +147,20 @@ async function submitIdea() {
     showScreen('ideas'); // Move to ideas tab automatically
   } catch(e) { alert("خطأ في الإرسال"); }
 }
+async function deleteIdea(id) {
+    if (!confirm("متأكد إنك عايز تحذف الفكرة دي؟")) return;
 
+    const f = new URLSearchParams();
+    f.append('action', 'delete');
+    f.append('id', id);
+
+    try {
+        await fetch(scriptURL, { method: 'POST', body: f, mode: 'no-cors' });
+        loadIdeas();
+    } catch(e) {
+        alert("فشل الحذف");
+    }
+}
 // --- 3. LOAD IDEAS (Older to Newer, showing edit options) ---
 async function loadIdeas() {
   const list = document.getElementById('ideas-list');
@@ -152,10 +179,11 @@ async function loadIdeas() {
             <span class="check-text">اتنفذت؟</span>
         </label>
         
-        <div class="idea-content">
-            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'الفكرة', '💡 عدل فكرتك')">📝 تعديل الفكرة</button>
-            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'التنفيذ', '🛠️ عدل مقترح التنفيذ')">📝 تعديل التنفيذ</button>
-        </div>
+       <div class="idea-content">
+    <button class="btn-edit-inline" onclick="editContent(${i.id}, 'الفكرة', '💡 عدل فكرتك')">📝 تعديل الفكرة</button>
+    <button class="btn-edit-inline" onclick="editContent(${i.id}, 'التنفيذ', '🛠️ عدل مقترح التنفيذ')">📝 تعديل التنفيذ</button>
+    <button class="btn-edit-inline" style="color:red;" onclick="deleteIdea(${i.id})">🗑️ حذف</button>
+</div>
       </div>
     `).join('');
   } catch(e) { list.innerHTML = "فشل في تحميل الأفكار."; }
