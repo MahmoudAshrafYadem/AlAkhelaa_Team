@@ -1,203 +1,225 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#1a7a4a">
-<title>الإخلاء - فكرتك وصلت</title>
-<link rel="manifest" href="./manifest.json">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  :root {
-    --green:#1a7a4a; --gl:#27ae60; --gbg:#e8f5ee;
-    --text:#2d4a38; --gray:#6b8a76; --white:#fff; --border:#c8e6d4;
-  }
-  body { font-family:'Cairo',sans-serif; background:linear-gradient(135deg,#e8f5ee,#d4edde,#c8e6d4); min-height:100vh; color:var(--text); }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a7a4a">
+    <title>"الإخلاء": قول فكرتك واحنا معاك</title>
+    <link rel="manifest" href="./manifest.json">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        :root {
+            --green:#1a7a4a; --gl:#27ae60; --gbg:#e8f5ee;
+            --gold:#f0a500; --text:#2d4a38; --gray:#6b8a76;
+            --white:#fff; --card:#f7fdf9; --border:#c8e6d4; --red:#e74c3c;
+        }
+        body { font-family:'Cairo',sans-serif; background:linear-gradient(135deg,#e8f5ee,#d4edde,#c8e6d4); min-height:100vh; color:var(--text); }
 
-  /* HEADER */
-  .header { background:linear-gradient(135deg,var(--green),#145e38); padding:40px 20px; text-align:center; color:white; }
-  .logo-img { width:110px; height:110px; border-radius:50%; background:var(--white); margin:0 auto 15px; display:block; border:4px solid var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); object-fit: cover; }
-  .header h1 { font-size:22px; font-weight:900; margin-bottom: 5px; }
-  .header p { font-size:16px; font-weight:600; opacity: 0.9; }
+        /* HEADER */
+        .header { background:linear-gradient(135deg,var(--green),#145e38); padding:30px 20px; text-align:center; color:white; }
+        .logo-img { width:120px; height:120px; border-radius:50%; background:var(--white); margin:0 auto 15px; display:flex; align-items:center; justify-content:center; border:4px solid var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); object-fit: cover; }
+        .header h1 { font-size:20px; font-weight:900; }
 
-  /* TABS */
-  .tabs { display:flex; background:var(--white); border-bottom:2px solid var(--border); position:sticky; top:0; z-index:100; }
-  .tab-btn { flex:1; padding:15px; border:none; background:transparent; font-family:'Cairo',sans-serif; font-size:15px; font-weight:700; color:var(--gray); cursor:pointer; }
-  .tab-btn.active { color:var(--green); border-bottom:3px solid var(--green); background:var(--gbg); }
+        /* TABS */
+        .tabs { display:flex; background:var(--white); border-bottom:2px solid var(--border); position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+        .tab-btn { flex:1; padding:15px 5px; border:none; background:transparent; font-family:'Cairo',sans-serif; font-size:14px; font-weight:700; color:var(--gray); cursor:pointer; border-bottom:3px solid transparent; }
+        .tab-btn.active { color:var(--green); border-bottom-color:var(--green); background:var(--gbg); }
 
-  /* SCREENS */
-  .screen { display:none; padding:20px 15px 100px; }
-  .screen.active { display:block; }
+        /* SCREENS */
+        .screen { display:none; padding:20px 15px 100px; }
+        .screen.active { display:block; }
 
-  /* CARDS */
-  .form-card, .idea-card { background:var(--white); border-radius:18px; padding:20px; box-shadow:0 2px 12px rgba(26,122,74,.1); margin-bottom:15px; }
-  .fl { font-size:14px; font-weight:700; margin-bottom:7px; display:block; }
-  input, textarea { width:100%; padding:12px; border:2px solid var(--border); border-radius:12px; font-family:'Cairo',sans-serif; margin-bottom:15px; outline:none; }
-  
-  .submit-btn { width:100%; padding:15px; background:linear-gradient(135deg,var(--green),var(--gl)); color:white; border:none; border-radius:12px; font-weight:900; font-size:17px; cursor:pointer; }
-  .submit-btn:active { transform: scale(0.97); transition: transform 0.1s; }
+        /* FORM & CARDS */
+        .form-card, .idea-card { background:var(--white); border-radius:18px; padding:20px; box-shadow:0 2px 12px rgba(26,122,74,.1); margin-bottom:15px; }
+        .fl { font-size:14px; font-weight:700; color:var(--text); margin-bottom:7px; display:block; }
+        input, textarea { width:100%; padding:12px; border:2px solid var(--border); border-radius:12px; font-family:'Cairo',sans-serif; margin-bottom:15px; outline:none; background:var(--card); }
+        input:focus, textarea:focus { border-color:var(--green); background:var(--white); }
+        
+        .submit-btn { width:100%; padding:15px; background:linear-gradient(135deg,var(--green),var(--gl)); color:white; border:none; border-radius:12px; font-weight:900; font-size:16px; cursor:pointer; box-shadow:0 4px 15px rgba(26,122,74,0.3); }
 
-  /* IDEA CARD */
-  .idea-card { border-right:5px solid var(--green); position: relative; }
-  .idea-name { font-weight:900; color:var(--green); margin-bottom: 10px; display: block; }
-  
-  /* CHECKBOX STYLE */
-  .check-container { display: flex; align-items: center; gap: 8px; background: var(--gbg); padding: 5px 12px; border-radius: 20px; width: fit-content; margin-top: 10px; cursor: pointer; }
-  .check-container input { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--green); }
-  .check-text { font-size: 13px; font-weight: 700; color: var(--green); }
+        /* IDEA CARD SPECIALS */
+        .idea-card { border-right:5px solid var(--green); position: relative; }
+        .idea-meta { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+        .idea-name { font-weight:900; color:var(--green); flex-grow: 1; }
+        .idea-check { position: absolute; left: 15px; top: 15px; display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700; color: var(--green); }
+        .idea-check input { width: 18px; height: 18px; cursor: pointer; border-radius: 5px; border-color: var(--green); color: var(--green); }
+        .btn-group { display:flex; gap:8px; margin-top:15px; }
+        .btn-edit { background:#ffc107; color:black; flex:1; padding:8px; border:none; border-radius:8px; font-weight:700; cursor:pointer; }
+        .btn-delete { background:#dc3545; color:white; flex:1; padding:8px; border:none; border-radius:8px; font-weight:700; cursor:pointer; }
 
-  /* EDIT OPTIONS */
-  .idea-content { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; display: flex; gap: 10px; justify-content: flex-end; }
-  .btn-edit-inline { background: none; border: none; color: #555; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; }
-
-  /* PWA POPUP */
-  .pwa-popup { display:none; position:fixed; bottom:20px; left:20px; right:20px; background:var(--white); padding:20px; border-radius:20px; box-shadow:0 -5px 25px rgba(0,0,0,0.2); z-index:2000; text-align:center; border: 2px solid var(--green); }
-  .pwa-popup.show { display:block; animation: slideUp 0.5s ease; }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-</style>
+        /* SUCCESS & PWA OVERLAY */
+        .success-overlay, .pwa-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center; }
+        .success-overlay.show, .pwa-overlay.show { display:flex; }
+        .success-box, .pwa-box { background:white; padding:30px; border-radius:20px; text-align:center; max-width:85%; width: auto; }
+        .pwa-box p { font-size: 14px; margin-bottom: 20px; font-weight: 700; color: #555; }
+    </style>
 </head>
 <body>
 
-<div class="pwa-popup" id="pwa-popup">
-  <p style="margin-bottom:15px; font-weight:700;">ضيف التطبيق لشاشتك الرئيسية عشان توصله بسهولة! 📲</p>
-  <button class="submit-btn" id="btn-install">تثبيت الآن</button>
-</div>
-
-<div class="header">
-  <img src="WhatsApp Image 2026-03-25 at 3.29.24 AM.jpeg" class="logo-img" alt="لوجو">
-  <h1>فكرتك وصلت</h1>
-  <p>الأخلاء: معًا لغدٍ أفضل</p>
-</div>
-
-<div class="tabs">
-  <button class="tab-btn active" id="tab-form" onclick="showScreen('form')">💡 فكرة جديدة</button>
-  <button class="tab-btn" id="tab-ideas" onclick="showScreen('ideas')">📋 الأفكار</button>
-</div>
-
-<div class="screen active" id="screen-form">
-  <div class="form-card">
-    <label class="fl">👤 اسمك</label>
-    <input type="text" id="inp-name" placeholder="اكتب اسمك هنا...">
-    <label class="fl">💡 الفكرة</label>
-    <textarea id="inp-idea" rows="3" placeholder="إيه الفكرة اللي في دماغك؟"></textarea>
-    <label class="fl">🛠️ مقترح التنفيذ</label>
-    <textarea id="inp-impl" rows="3" placeholder="إزاي نقدر ننفذها؟"></textarea>
-    <button class="submit-btn" onclick="submitIdea()">✅ ابعت فكرتك</button>
+<div class="pwa-overlay" id="pwa-overlay">
+  <div class="pwa-box">
+    <p>📲 ثبّت التطبيق على شاشتك الرئيسية للوصول السريع!</p>
+    <button class="submit-btn" id="pwa-install-btn">تثبيت التطبيق</button>
   </div>
 </div>
 
+<div class="header">
+    <img src="logo.png" class="logo-img" alt="Logo">
+    <h1>"الإخلاء": قول فكرتك واحنا معاك</h1>
+    <p>فريق تطوعي لخدمة قرية الرقيق</p>
+</div>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="showScreen('form')">💡 سجّل فكرتك</button>
+    <button class="tab-btn" onclick="showScreen('ideas')">📋 الأفكار</button>
+</div>
+
+<div class="screen active" id="screen-form">
+    <div class="form-card">
+        <label class="fl">👤 الاسم</label>
+        <input type="text" id="inp-name" placeholder="اكتب اسمك هنا...">
+        <label class="fl">💡 الفكرة</label>
+        <textarea id="inp-idea" rows="3" placeholder="إيه الفكرة اللي في دماغك؟"></textarea>
+        <label class="fl">🛠️ مقترح التنفيذ</label>
+        <textarea id="inp-impl" rows="3" placeholder="إزاي نقدر ننفذها؟"></textarea>
+        <button class="submit-btn" onclick="submitIdea()">✅ ابعت فكرتك</button>
+    </div>
+</div>
+
 <div class="screen" id="screen-ideas">
-  <div id="ideas-list"><p style="text-align:center; color:var(--gray)">جاري تحميل الأفكار...</p></div>
+    <div id="ideas-list">
+        <p style="text-align:center; color:var(--gray)">جاري تحميل الأفكار...</p>
+    </div>
+</div>
+
+<div class="success-overlay" id="success-overlay">
+    <div class="success-box">
+        <h2 style="color:var(--green)">🎉 شكراً ليك!</h2>
+        <p>فكرتك وصلت وهنراجعها في أسرع وقت.</p>
+        <button class="submit-btn" style="margin-top:20px" onclick="document.getElementById('success-overlay').classList.remove('show')">تمام 👍</button>
+    </div>
 </div>
 
 <script>
+// Your updated deployment URL
 const scriptURL = "https://script.google.com/macros/s/AKfycbx9XVWoWg5FKj9yrdWdNQ-bPopBRNQdq268UnKxXsGnLDinmOI93w5jhRyOiukH01lkNw/exec";
 
-// --- 1. PWA INSTALL LOGIC (Pop up) ---
+// --- 1. PWA Install Logic ---
 let deferredPrompt;
+const pwaOverlay = document.getElementById('pwa-overlay');
+const pwaInstallBtn = document.getElementById('pwa-install-btn');
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('pwa-popup').classList.add('show');
+  pwaOverlay.classList.add('show');
 });
 
-document.getElementById('btn-install').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') document.getElementById('pwa-popup').classList.remove('show');
-    deferredPrompt = null;
+pwaInstallBtn.addEventListener('click', async () => {
+  pwaOverlay.classList.remove('show');
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    console.log('App install accepted');
+  } else {
+    console.log('App install declined');
   }
+  deferredPrompt = null;
 });
 
-// --- 2. SUBMIT IDEA ---
+// --- 2. Submit New Idea ---
 async function submitIdea() {
-  const name = document.getElementById('inp-name').value;
-  const idea = document.getElementById('inp-idea').value;
-  const impl = document.getElementById('inp-impl').value;
-  if(!name || !idea || !impl) return alert("من فضلك كمل البيانات الأول يا بطل");
+    const name = document.getElementById('inp-name').value;
+    const idea = document.getElementById('inp-idea').value;
+    const impl = document.getElementById('inp-impl').value;
 
-  const formData = new URLSearchParams();
-  formData.append('action', 'add');
-  formData.append('الاسم', name);
-  formData.append('الفكرة', idea);
-  formData.append('التنفيذ', impl);
+    if(!name || !idea || !impl) return alert("كمل البيانات الأول يا بطل!");
 
-  try {
-    const response = await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
-    alert("فكرتك وصلت ، شكرا ليك ❤️");
-    document.getElementById('inp-name').value = '';
-    document.getElementById('inp-idea').value = '';
-    document.getElementById('inp-impl').value = '';
-    showScreen('ideas'); // Move to ideas tab automatically
-  } catch(e) { alert("خطأ في الإرسال"); }
+    const formData = new URLSearchParams();
+    formData.append('action', 'add');
+    formData.append('الاسم', name);
+    formData.append('الفكرة', idea);
+    formData.append('التنفيذ', impl);
+
+    try {
+        await fetch(scriptURL, { method: 'POST', body: formData });
+        document.getElementById('inp-name').value = '';
+        document.getElementById('inp-idea').value = '';
+        document.getElementById('inp-impl').value = '';
+        document.getElementById('success-overlay').classList.add('show');
+        if(window.loadIdeas) loadIdeas();
+    } catch(e) { alert("حصل مشكلة في الإرسال!"); }
 }
 
-// --- 3. LOAD IDEAS (Older to Newer, showing edit options) ---
+// --- 3. Load & Display Ideas (Older to Newer, with Checkbox) ---
 async function loadIdeas() {
-  const list = document.getElementById('ideas-list');
-  try {
-    const r = await fetch(scriptURL + "?nocache=" + Date.now());
-    const data = await r.json();
-    
-    list.innerHTML = data.map(i => `
-      <div class="idea-card">
-        <span class="idea-name">👤 ${esc(i.الاسم)}</span>
-        <p id="content-idea-${i.id}"><strong>💡 الفكرة:</strong> ${esc(i.الفكرة)}</p>
-        <p id="content-impl-${i.id}" style="margin-top:5px"><strong>🛠️ التنفيذ:</strong> ${esc(i.التنفيذ)}</p>
+    const list = document.getElementById('ideas-list');
+    try {
+        const r = await fetch(scriptURL + "?nocache=" + Date.now());
+        const data = await r.json();
         
-        <label class="check-container">
-            <input type="checkbox" ${localStorage.getItem('task-'+i.id) === 'true' ? 'checked' : ''} onchange="localStorage.setItem('task-'+${i.id}, this.checked)">
-            <span class="check-text">اتنفذت؟</span>
-        </label>
-        
-        <div class="idea-content">
-            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'الفكرة', '💡 عدل فكرتك')">📝 تعديل الفكرة</button>
-            <button class="btn-edit-inline" onclick="editContent(${i.id}, 'التنفيذ', '🛠️ عدل مقترح التنفيذ')">📝 تعديل التنفيذ</button>
-        </div>
-      </div>
-    `).join('');
-  } catch(e) { list.innerHTML = "فشل في تحميل الأفكار."; }
-}
-
-// --- 4. INLINE EDITING ---
-async function editContent(id, type, promptTitle) {
-    let contentNode = document.getElementById(`content-${type === 'الفكرة' ? 'idea' : 'impl'}-${id}`);
-    let oldText = contentNode.innerText.replace(type === 'الفكرة' ? '💡 الفكرة: ' : '🛠️ التنفيذ: ', '').trim();
-    
-    let newText = prompt(promptTitle, oldText);
-    if (newText !== null && newText !== "" && newText !== oldText) {
-        contentNode.innerHTML = `<strong>${type === 'الفكرة' ? '💡 الفكرة:' : '🛠️ التنفيذ:'}</strong> ${esc(newText)} (جاري التحديث...)`;
-
-        const f = new URLSearchParams();
-        f.append('action', 'edit'); 
-        f.append('id', id);
-        // Use the original column name based on type
-        f.append(type === 'الفكرة' ? 'الفكرة' : 'التنفيذ', newText);
-
-        try {
-            await fetch(scriptURL, { method: 'POST', body: f, mode: 'no-cors' });
-            loadIdeas(); // Reload to remove "(جاري التحديث...)"
-        } catch(e) { 
-            alert("فشل التحديث، جرب تاني.");
-            loadIdeas();
+        if(!data.length) {
+            list.innerHTML = "<p style='text-align:center'>لسه مفيش أفكار، ابدأ أنت!</p>";
+            return;
         }
-    }
+
+        // --- 4. Sort: Older to Newer (By default based on date if exists, or just data) ---
+        // data.sort((a,b) => new Date(a.date) - new Date(b.date)); // If you have date field
+        // Since we don't have explicit date in data, we can assume the current list is already in order.
+
+        list.innerHTML = data.map(i => `
+            <div class="idea-card">
+                <div class="idea-meta">
+                    <div class="idea-name">👤 ${i.الاسم}</div>
+                    <label class="idea-check">
+                        <input type="checkbox" ${i.التنفيذ === 'اتنفذت' ? 'checked' : ''} onclick="return false;">
+                        ✅ اتنفذت؟
+                    </label>
+                </div>
+                <p><strong>💡 الفكرة:</strong> ${i.الفكرة}</p>
+                <p><strong>🛠️ التنفيذ:</strong> ${i.التنفيذ}</p>
+                
+                <div class="btn-group">
+                    <button class="btn-edit" onclick="editIdea(${i.id}, '${i.الفكرة}')">📝 تعديل</button>
+                    <button class="btn-delete" onclick="deleteIdea(${i.id})">🗑️ حذف</button>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) { list.innerHTML = "فشل في تحميل الأفكار."; }
 }
 
+// --- 5. Delete Function ---
+async function deleteIdea(id) {
+    if(!confirm("متأكد إنك عايز تحذف الفكرة دي؟")) return;
+    const f = new URLSearchParams();
+    f.append('action', 'delete'); f.append('id', id);
+    await fetch(scriptURL, { method: 'POST', body: f });
+    loadIdeas();
+}
+
+// --- 6. Edit Function ---
+async function editIdea(id, oldIdea) {
+    const newText = prompt("عدل فكرتك هنا:", oldIdea);
+    if(!newText) return;
+    const f = new URLSearchParams();
+    f.append('action', 'edit'); f.append('id', id); f.append('الفكرة', newText);
+    await fetch(scriptURL, { method: 'POST', body: f });
+    loadIdeas();
+}
+
+// Show screens function
 function showScreen(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-'+n).classList.add('active');
-  document.getElementById('tab-'+n).classList.add('active');
-  if(n === 'ideas') loadIdeas();
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('screen-'+n).classList.add('active');
+    event.currentTarget.classList.add('active');
+    if(n === 'ideas') loadIdeas();
 }
 
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
+// Initial Load
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
-loadIdeas(); // Initial load for the other tab if active
+loadIdeas(); // Load on open
 </script>
 </body>
 </html>
