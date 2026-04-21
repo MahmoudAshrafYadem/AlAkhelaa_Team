@@ -1,66 +1,53 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#1a7a4a">
-<title>الإخلاء - فكرتك وصلت</title>
-<link rel="manifest" href="./manifest.json">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  :root {
-    --green:#1a7a4a; --gl:#27ae60; --gbg:#e8f5ee;
-    --text:#2d4a38; --gray:#6b8a76; --white:#fff; --border:#c8e6d4;
-  }
-  body { font-family:'Cairo',sans-serif; background:linear-gradient(135deg,#e8f5ee,#d4edde,#c8e6d4); min-height:100vh; color:var(--text); }
-
-  /* HEADER */
-  .header { background:linear-gradient(135deg,var(--green),#145e38); padding:40px 20px; text-align:center; color:white; }
-  .logo-img { width:110px; height:110px; border-radius:50%; background:var(--white); margin:0 auto 15px; display:block; border:4px solid var(--white); box-shadow:0 4px 15px rgba(0,0,0,0.2); object-fit: cover; }
-  .header h1 { font-size:22px; font-weight:900; margin-bottom: 5px; }
-  .header p { font-size:16px; font-weight:600; opacity: 0.9; }
-
-  /* TABS */
-  .tabs { display:flex; background:var(--white); border-bottom:2px solid var(--border); position:sticky; top:0; z-index:100; }
-  .tab-btn { flex:1; padding:15px; border:none; background:transparent; font-family:'Cairo',sans-serif; font-size:15px; font-weight:700; color:var(--gray); cursor:pointer; }
-  .tab-btn.active { color:var(--green); border-bottom:3px solid var(--green); background:var(--gbg); }
-
-  /* SCREENS */
-  .screen { display:none; padding:20px 15px 100px; }
-  .screen.active { display:block; }
-
-  /* CARDS */
-  .form-card, .idea-card { background:var(--white); border-radius:18px; padding:20px; box-shadow:0 2px 12px rgba(26,122,74,.1); margin-bottom:15px; }
-  .fl { font-size:14px; font-weight:700; margin-bottom:7px; display:block; }
-  input, textarea { width:100%; padding:12px; border:2px solid var(--border); border-radius:12px; font-family:'Cairo',sans-serif; margin-bottom:15px; outline:none; }
-  
-  .submit-btn { width:100%; padding:15px; background:linear-gradient(135deg,var(--green),var(--gl)); color:white; border:none; border-radius:12px; font-weight:900; font-size:17px; cursor:pointer; }
-  .submit-btn:active { transform: scale(0.97); transition: transform 0.1s; }
-
-  /* IDEA CARD */
-  .idea-card { border-right:5px solid var(--green); position: relative; }
-  .idea-name { font-weight:900; color:var(--green); margin-bottom: 10px; display: block; }
-  
-  /* CHECKBOX STYLE */
-  .check-container { display: flex; align-items: center; gap: 8px; background: var(--gbg); padding: 5px 12px; border-radius: 20px; width: fit-content; margin-top: 10px; cursor: pointer; }
-  .check-container input { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--green); }
-  .check-text { font-size: 13px; font-weight: 700; color: var(--green); }
-
-  /* EDIT OPTIONS */
-  .idea-content { margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; display: flex; gap: 10px; justify-content: flex-end; }
-  .btn-edit-inline { background: none; border: none; color: #555; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; }
-
-  /* PWA POPUP */
-  .pwa-popup { display:none; position:fixed; bottom:20px; left:20px; right:20px; background:var(--white); padding:20px; border-radius:20px; box-shadow:0 -5px 25px rgba(0,0,0,0.2); z-index:2000; text-align:center; border: 2px solid var(--green); }
-  .pwa-popup.show { display:block; animation: slideUp 0.5s ease; }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a7a4a">
+  <title>الإخلاء - فكرتك وصلت</title>
+  <link rel="manifest" href="./manifest.json">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    :root{
+      --green:#1a7a4a;--green2:#27ae60;--bg:#e8f5ee;--text:#2d4a38;--muted:#6b8a76;--white:#fff;--border:#c8e6d4;--danger:#b42318;
+    }
+    body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#e8f5ee,#d4edde,#c8e6d4);min-height:100vh;color:var(--text)}
+    .header{background:linear-gradient(135deg,var(--green),#145e38);padding:38px 20px;text-align:center;color:#fff}
+    .logo-img{width:110px;height:110px;border-radius:50%;background:#fff;margin:0 auto 15px;display:block;border:4px solid #fff;box-shadow:0 4px 15px rgba(0,0,0,.2);object-fit:cover}
+    .header h1{font-size:22px;font-weight:900;margin-bottom:6px}
+    .header p{font-size:16px;font-weight:600;opacity:.92}
+    .tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100}
+    .tab-btn{flex:1;padding:15px;border:none;background:transparent;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;color:var(--muted);cursor:pointer}
+    .tab-btn.active{color:var(--green);border-bottom:3px solid var(--green);background:var(--bg)}
+    .screen{display:none;padding:20px 15px 100px}
+    .screen.active{display:block}
+    .card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 2px 12px rgba(26,122,74,.1);margin-bottom:15px}
+    .fl{font-size:14px;font-weight:700;margin-bottom:7px;display:block}
+    input,textarea{width:100%;padding:12px;border:2px solid var(--border);border-radius:12px;font-family:'Cairo',sans-serif;margin-bottom:15px;outline:none}
+    input:focus,textarea:focus{border-color:var(--green2)}
+    .submit-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border:none;border-radius:12px;font-weight:900;font-size:17px;cursor:pointer}
+    .submit-btn:active{transform:scale(.98)}
+    .hint{font-size:13px;color:var(--muted);line-height:1.7}
+    .status{font-size:13px;padding:10px 12px;border-radius:12px;margin-bottom:12px;display:none}
+    .status.show{display:block}
+    .status.ok{background:#edfdf3;color:#027a48;border:1px solid #abefc6}
+    .status.warn{background:#fffaeb;color:#b54708;border:1px solid #fedf89}
+    .status.err{background:#fef3f2;color:var(--danger);border:1px solid #fecdca}
+    .idea-card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(26,122,74,.1);margin-bottom:14px;border-right:5px solid var(--green)}
+    .idea-name{font-weight:900;color:var(--green);margin-bottom:10px;display:block}
+    .idea-meta{font-size:12px;color:var(--muted);margin-top:10px}
+    .badge{display:inline-block;background:var(--bg);color:var(--green);padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:10px}
+    .empty{padding:24px;text-align:center;color:var(--muted)}
+    .pwa-popup{display:none;position:fixed;bottom:20px;left:20px;right:20px;background:#fff;padding:20px;border-radius:20px;box-shadow:0 -5px 25px rgba(0,0,0,.2);z-index:2000;text-align:center;border:2px solid var(--green)}
+    .pwa-popup.show{display:block;animation:slideUp .5s ease}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  </style>
 </head>
 <body>
 
 <div class="pwa-popup" id="pwa-popup">
-  <p style="margin-bottom:15px; font-weight:700;">ضيف التطبيق لشاشتك الرئيسية عشان توصله بسهولة! 📲</p>
+  <p style="margin-bottom:15px;font-weight:700">ضيف التطبيق لشاشتك الرئيسية عشان توصله بسهولة! 📲</p>
   <button class="submit-btn" id="btn-install">تثبيت الآن</button>
 </div>
 
@@ -76,61 +63,117 @@
 </div>
 
 <div class="screen active" id="screen-form">
-  <div class="form-card">
+  <div class="card">
+    <div id="form-status" class="status"></div>
     <label class="fl">👤 اسمك</label>
     <input type="text" id="inp-name" placeholder="اكتب اسمك هنا...">
+
     <label class="fl">💡 الفكرة</label>
     <textarea id="inp-idea" rows="3" placeholder="إيه الفكرة اللي في دماغك؟"></textarea>
+
     <label class="fl">🛠️ مقترح التنفيذ</label>
     <textarea id="inp-impl" rows="3" placeholder="إزاي نقدر ننفذها؟"></textarea>
+
     <button class="submit-btn" onclick="submitIdea()">✅ ابعت فكرتك</button>
+    <p class="hint" style="margin-top:12px">الأفكار المعروضة تُحمَّل الآن مباشرة من Google Sheet لحل مشكلة صفحة النشر. لو الإرسال لم يكتمل، يحتاج رابط Apps Script إلى إعادة نشر فقط.</p>
   </div>
 </div>
 
 <div class="screen" id="screen-ideas">
-  <div id="ideas-list"><p style="text-align:center; color:var(--gray)">جاري تحميل الأفكار...</p></div>
+  <div class="card" style="padding:14px 16px">
+    <span class="badge">يتم التحميل من Google Sheet مباشرة</span>
+    <div id="ideas-list" class="empty">جاري تحميل الأفكار...</div>
+  </div>
 </div>
 
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbx9XVWoWg5FKj9yrdWdNQ-bPopBRNQdq268UnKxXsGnLDinmOI93w5jhRyOiukH01lkNw/exec";
+const sheetJsonURL = "https://docs.google.com/spreadsheets/d/1TYo9ue6sd3KH22OziMI-NxpRFg4Q9F3Gy8yW3wSyBTs/gviz/tq?gid=0&tqx=out:json";
 
-// --- 1. PWA INSTALL LOGIC (Pop up) ---
-let deferredPrompt;
-const popup = document.getElementById('pwa-popup');
+function esc(s){return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function looksLikeDateTime(v){return /\d{4}\/\d{2}\/\d{2}|\d{1,2}:\d{2}/.test(String(v||''))}
+function setStatus(type,msg){
+  const box=document.getElementById('form-status');
+  box.className='status show '+type;
+  box.textContent=msg;
+}
 
-// 👇 fallback يظهر مرة واحدة بعد 3 ثواني
-setTimeout(() => {
-  if (!localStorage.getItem("pwaShown")) {
-    popup.classList.add('show');
-    localStorage.setItem("pwaShown", "true");
+function parseGoogleSheetResponse(text){
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if(start === -1 || end === -1) throw new Error('Invalid Google Sheet response');
+  return JSON.parse(text.slice(start, end + 1));
+}
+
+function sheetRowsToIdeas(table){
+  const rows = (table.table && table.table.rows) ? table.table.rows : [];
+  const ideas = rows.map((row, idx) => {
+    const vals = (row.c || []).map(cell => cell ? (cell.f ?? cell.v ?? '') : '');
+    let timestamp='', name='', idea='', impl='';
+
+    if (vals.length >= 4 && looksLikeDateTime(vals[0])) {
+      timestamp = vals[0];
+      name = vals[1] || '';
+      idea = vals[2] || '';
+      impl = vals[3] || '';
+    } else {
+      name = vals[0] || '';
+      idea = vals[1] || '';
+      impl = vals[2] || '';
+      timestamp = vals[3] || '';
+    }
+
+    return {
+      id: (timestamp || ('row-' + idx)).toString() + '-' + idx,
+      name, idea, impl, timestamp
+    };
+  }).filter(item => item.name || item.idea || item.impl);
+
+  return ideas.reverse();
+}
+
+async function loadIdeas(){
+  const list = document.getElementById('ideas-list');
+  list.className='empty';
+  list.textContent='جاري تحميل الأفكار...';
+
+  try{
+    const response = await fetch(sheetJsonURL + '&cacheBust=' + Date.now());
+    const text = await response.text();
+    const data = parseGoogleSheetResponse(text);
+    const ideas = sheetRowsToIdeas(data);
+
+    if(!ideas.length){
+      list.className='empty';
+      list.textContent='لا توجد أفكار معروضة حاليًا.';
+      return;
+    }
+
+    list.className='';
+    list.innerHTML = ideas.map(item => `
+      <div class="idea-card">
+        <span class="idea-name">👤 ${esc(item.name || 'بدون اسم')}</span>
+        <p><strong>💡 الفكرة:</strong> ${esc(item.idea || '—')}</p>
+        <p style="margin-top:8px"><strong>🛠️ التنفيذ:</strong> ${esc(item.impl || '—')}</p>
+        ${item.timestamp ? `<div class="idea-meta">🕒 ${esc(item.timestamp)}</div>` : ''}
+      </div>
+    `).join('');
+  }catch(err){
+    console.error(err);
+    list.className='empty';
+    list.textContent='فشل في تحميل الأفكار من Google Sheet.';
   }
-}, 3000);
+}
 
-// 👇 event الأساسي
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
+async function submitIdea(){
+  const name = document.getElementById('inp-name').value.trim();
+  const idea = document.getElementById('inp-idea').value.trim();
+  const impl = document.getElementById('inp-impl').value.trim();
 
-  popup.classList.add('show');
-});
-
-// 👇 زرار التثبيت
-document.getElementById('btn-install').addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-  } else {
-    alert("من فضلك استخدم Add to Home Screen من المتصفح");
+  if(!name || !idea || !impl){
+    setStatus('warn','من فضلك كمل البيانات الأول يا بطل.');
+    return;
   }
-  popup.classList.remove('show');
-});
-
-// --- 2. SUBMIT IDEA ---
-async function submitIdea() {
-  const name = document.getElementById('inp-name').value;
-  const idea = document.getElementById('inp-idea').value;
-  const impl = document.getElementById('inp-impl').value;
-  if(!name || !idea || !impl) return alert("من فضلك كمل البيانات الأول يا بطل");
 
   const formData = new URLSearchParams();
   formData.append('action', 'add');
@@ -138,94 +181,52 @@ async function submitIdea() {
   formData.append('الفكرة', idea);
   formData.append('التنفيذ', impl);
 
-  try {
-    const response = await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
-    alert("فكرتك وصلت ، شكرا ليك ❤️");
-    document.getElementById('inp-name').value = '';
-    document.getElementById('inp-idea').value = '';
-    document.getElementById('inp-impl').value = '';
-    showScreen('ideas'); // Move to ideas tab automatically
-  } catch(e) { alert("خطأ في الإرسال"); }
-}
-async function deleteIdea(id) {
-    if (!confirm("متأكد إنك عايز تحذف الفكرة دي؟")) return;
-
-    const f = new URLSearchParams();
-    f.append('action', 'delete');
-    f.append('id', id);
-
-    try {
-        await fetch(scriptURL, { method: 'POST', body: f, mode: 'no-cors' });
-        loadIdeas();
-    } catch(e) {
-        alert("فشل الحذف");
-    }
-}
-// --- 3. LOAD IDEAS (Older to Newer, showing edit options) ---
-async function loadIdeas() {
-  const list = document.getElementById('ideas-list');
-  try {
-    const r = await fetch(scriptURL + "?nocache=" + Date.now());
-    const data = await r.json();
-    
-    list.innerHTML = data.map(i => `
-      <div class="idea-card">
-        <span class="idea-name">👤 ${esc(i.الاسم)}</span>
-        <p id="content-idea-${i.id}"><strong>💡 الفكرة:</strong> ${esc(i.الفكرة)}</p>
-        <p id="content-impl-${i.id}" style="margin-top:5px"><strong>🛠️ التنفيذ:</strong> ${esc(i.التنفيذ)}</p>
-        
-        <label class="check-container">
-            <input type="checkbox" ${localStorage.getItem('task-'+i.id) === 'true' ? 'checked' : ''} onchange="localStorage.setItem('task-'+${i.id}, this.checked)">
-            <span class="check-text">اتنفذت؟</span>
-        </label>
-        
-       <div class="idea-content">
-    <button class="btn-edit-inline" onclick="editContent(${i.id}, 'الفكرة', '💡 عدل فكرتك')">📝 تعديل الفكرة</button>
-    <button class="btn-edit-inline" onclick="editContent(${i.id}, 'التنفيذ', '🛠️ عدل مقترح التنفيذ')">📝 تعديل التنفيذ</button>
-    <button class="btn-edit-inline" style="color:red;" onclick="deleteIdea(${i.id})">🗑️ حذف</button>
-</div>
-      </div>
-    `).join('');
-  } catch(e) { list.innerHTML = "فشل في تحميل الأفكار."; }
+  try{
+    await fetch(scriptURL, { method:'POST', body:formData, mode:'no-cors' });
+    setStatus('ok','تم إرسال الطلب. لو لم تظهر الفكرة في القائمة بعد قليل، أعد نشر Apps Script Web App بنفس الرابط أو رابط جديد.');
+    document.getElementById('inp-name').value='';
+    document.getElementById('inp-idea').value='';
+    document.getElementById('inp-impl').value='';
+  }catch(err){
+    console.error(err);
+    setStatus('err','تعذر الإرسال حاليًا. عرض الأفكار يعمل، لكن الإرسال يحتاج Apps Script Web App بصلاحية Anyone.');
+  }
 }
 
-// --- 4. INLINE EDITING ---
-async function editContent(id, type, promptTitle) {
-    let contentNode = document.getElementById(`content-${type === 'الفكرة' ? 'idea' : 'impl'}-${id}`);
-    let oldText = contentNode.innerText.replace(type === 'الفكرة' ? '💡 الفكرة: ' : '🛠️ التنفيذ: ', '').trim();
-    
-    let newText = prompt(promptTitle, oldText);
-    if (newText !== null && newText !== "" && newText !== oldText) {
-        contentNode.innerHTML = `<strong>${type === 'الفكرة' ? '💡 الفكرة:' : '🛠️ التنفيذ:'}</strong> ${esc(newText)} (جاري التحديث...)`;
-
-        const f = new URLSearchParams();
-        f.append('action', 'edit'); 
-        f.append('id', id);
-        // Use the original column name based on type
-        f.append(type === 'الفكرة' ? 'الفكرة' : 'التنفيذ', newText);
-
-        try {
-            await fetch(scriptURL, { method: 'POST', body: f, mode: 'no-cors' });
-            loadIdeas(); // Reload to remove "(جاري التحديث...)"
-        } catch(e) { 
-            alert("فشل التحديث، جرب تاني.");
-            loadIdeas();
-        }
-    }
-}
-
-function showScreen(n) {
+function showScreen(name){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-'+n).classList.add('active');
-  document.getElementById('tab-'+n).classList.add('active');
-  if(n === 'ideas') loadIdeas();
+  document.getElementById('screen-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if(name === 'ideas') loadIdeas();
 }
 
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+let deferredPrompt;
+const popup = document.getElementById('pwa-popup');
+setTimeout(() => {
+  if (!localStorage.getItem('pwaShown')) {
+    popup.classList.add('show');
+    localStorage.setItem('pwaShown', 'true');
+  }
+}, 3000);
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  popup.classList.add('show');
+});
+document.getElementById('btn-install').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+  } else {
+    alert('من فضلك استخدم Add to Home Screen من المتصفح');
+  }
+  popup.classList.remove('show');
+});
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
-loadIdeas(); // Initial load for the other tab if active
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(console.error);
+}
 </script>
 </body>
 </html>
