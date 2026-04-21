@@ -39,6 +39,12 @@
     .idea-meta{font-size:12px;color:var(--muted);margin-top:10px}
     .badge{display:inline-block;background:var(--bg);color:var(--green);padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:10px}
     .empty{padding:24px;text-align:center;color:var(--muted)}
+    .check-container{display:flex;align-items:center;gap:8px;background:var(--bg);padding:5px 12px;border-radius:20px;width:fit-content;margin-top:10px;cursor:pointer}
+    .check-container input{width:18px;height:18px;margin:0;cursor:pointer;accent-color:var(--green)}
+    .check-text{font-size:13px;font-weight:700;color:var(--green)}
+    .idea-actions{margin-top:12px;padding-top:12px;border-top:1px solid #eee;display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+    .btn-inline{background:none;border:none;color:#555;font-size:14px;font-weight:700;cursor:pointer;text-decoration:underline}
+    .btn-inline.danger{color:#b42318}
     .pwa-popup{display:none;position:fixed;bottom:20px;left:20px;right:20px;background:#fff;padding:20px;border-radius:20px;box-shadow:0 -5px 25px rgba(0,0,0,.2);z-index:2000;text-align:center;border:2px solid var(--green)}
     .pwa-popup.show{display:block;animation:slideUp .5s ease}
     @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -75,13 +81,13 @@
     <textarea id="inp-impl" rows="3" placeholder="إزاي نقدر ننفذها؟"></textarea>
 
     <button class="submit-btn" onclick="submitIdea()">✅ ابعت فكرتك</button>
-    <p class="hint" style="margin-top:12px">الأفكار المعروضة تُحمَّل الآن مباشرة من Google Sheet لحل مشكلة صفحة النشر. لو الإرسال لم يكتمل، يحتاج رابط Apps Script إلى إعادة نشر فقط.</p>
+    <p class="hint" style="margin-top:12px">عرض الأفكار يعمل مباشرة من Google Sheet. الإضافة والتعديل والحذف يحتاجوا Apps Script Web App بصلاحية <b>Anyone</b>.</p>
   </div>
 </div>
 
 <div class="screen" id="screen-ideas">
   <div class="card" style="padding:14px 16px">
-    <span class="badge">يتم التحميل من Google Sheet مباشرة</span>
+    <span class="badge">عرض مباشر من Google Sheet</span>
     <div id="ideas-list" class="empty">جاري تحميل الأفكار...</div>
   </div>
 </div>
@@ -89,13 +95,14 @@
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbx9XVWoWg5FKj9yrdWdNQ-bPopBRNQdq268UnKxXsGnLDinmOI93w5jhRyOiukH01lkNw/exec";
 const sheetJsonURL = "https://docs.google.com/spreadsheets/d/1TYo9ue6sd3KH22OziMI-NxpRFg4Q9F3Gy8yW3wSyBTs/gviz/tq?gid=0&tqx=out:json";
+let ideasCache = [];
 
 function esc(s){return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function looksLikeDateTime(v){return /\d{4}\/\d{2}\/\d{2}|\d{1,2}:\d{2}/.test(String(v||''))}
 function setStatus(type,msg){
   const box=document.getElementById('form-status');
   box.className='status show '+type;
-  box.textContent=msg;
+  box.innerHTML=msg;
 }
 
 function parseGoogleSheetResponse(text){
@@ -105,31 +112,66 @@ function parseGoogleSheetResponse(text){
   return JSON.parse(text.slice(start, end + 1));
 }
 
+function normalizeRow(vals, idx){
+  let timestamp='', name='', idea='', impl='';
+  if (vals.length >= 4 && looksLikeDateTime(vals[0])) {
+    timestamp = vals[0];
+    name = vals[1] || '';
+    idea = vals[2] || '';
+    impl = vals[3] || '';
+  } else {
+    name = vals[0] || '';
+    idea = vals[1] || '';
+    impl = vals[2] || '';
+    timestamp = vals[3] || '';
+  }
+  return {
+    id: (timestamp || ('row-' + idx)).toString() + '-' + idx,
+    rowIndex: idx + 2,
+    timestamp,
+    name,
+    idea,
+    impl
+  };
+}
+
 function sheetRowsToIdeas(table){
   const rows = (table.table && table.table.rows) ? table.table.rows : [];
   const ideas = rows.map((row, idx) => {
     const vals = (row.c || []).map(cell => cell ? (cell.f ?? cell.v ?? '') : '');
-    let timestamp='', name='', idea='', impl='';
-
-    if (vals.length >= 4 && looksLikeDateTime(vals[0])) {
-      timestamp = vals[0];
-      name = vals[1] || '';
-      idea = vals[2] || '';
-      impl = vals[3] || '';
-    } else {
-      name = vals[0] || '';
-      idea = vals[1] || '';
-      impl = vals[2] || '';
-      timestamp = vals[3] || '';
-    }
-
-    return {
-      id: (timestamp || ('row-' + idx)).toString() + '-' + idx,
-      name, idea, impl, timestamp
-    };
+    return normalizeRow(vals, idx);
   }).filter(item => item.name || item.idea || item.impl);
-
   return ideas.reverse();
+}
+
+function renderIdeas(ideas){
+  const list = document.getElementById('ideas-list');
+  if(!ideas.length){
+    list.className='empty';
+    list.textContent='لا توجد أفكار معروضة حاليًا.';
+    return;
+  }
+
+  list.className='';
+  list.innerHTML = ideas.map(item => `
+    <div class="idea-card">
+      <span class="idea-name">👤 ${esc(item.name || 'بدون اسم')}</span>
+      <p id="content-idea-${item.id}"><strong>💡 الفكرة:</strong> ${esc(item.idea || '—')}</p>
+      <p id="content-impl-${item.id}" style="margin-top:8px"><strong>🛠️ التنفيذ:</strong> ${esc(item.impl || '—')}</p>
+      ${item.timestamp ? `<div class="idea-meta">🕒 ${esc(item.timestamp)}</div>` : ''}
+
+      <label class="check-container">
+        <input type="checkbox" ${localStorage.getItem('task-'+item.id) === 'true' ? 'checked' : ''} onchange="localStorage.setItem('task-${item.id}', this.checked)">
+        <span class="check-text">اتنفذت؟</span>
+      </label>
+
+      <div class="idea-actions">
+        <button class="btn-inline" onclick="editContent('${item.id}','idea')">📝 تعديل الفكرة</button>
+        <button class="btn-inline" onclick="editContent('${item.id}','impl')">📝 تعديل التنفيذ</button>
+        <button class="btn-inline danger" onclick="deleteIdea('${item.id}')">🗑️ حذف</button>
+      </div>
+    </div>
+  `).join('');
 }
 
 async function loadIdeas(){
@@ -141,23 +183,8 @@ async function loadIdeas(){
     const response = await fetch(sheetJsonURL + '&cacheBust=' + Date.now());
     const text = await response.text();
     const data = parseGoogleSheetResponse(text);
-    const ideas = sheetRowsToIdeas(data);
-
-    if(!ideas.length){
-      list.className='empty';
-      list.textContent='لا توجد أفكار معروضة حاليًا.';
-      return;
-    }
-
-    list.className='';
-    list.innerHTML = ideas.map(item => `
-      <div class="idea-card">
-        <span class="idea-name">👤 ${esc(item.name || 'بدون اسم')}</span>
-        <p><strong>💡 الفكرة:</strong> ${esc(item.idea || '—')}</p>
-        <p style="margin-top:8px"><strong>🛠️ التنفيذ:</strong> ${esc(item.impl || '—')}</p>
-        ${item.timestamp ? `<div class="idea-meta">🕒 ${esc(item.timestamp)}</div>` : ''}
-      </div>
-    `).join('');
+    ideasCache = sheetRowsToIdeas(data);
+    renderIdeas(ideasCache);
   }catch(err){
     console.error(err);
     list.className='empty';
@@ -183,13 +210,72 @@ async function submitIdea(){
 
   try{
     await fetch(scriptURL, { method:'POST', body:formData, mode:'no-cors' });
-    setStatus('ok','تم إرسال الطلب. لو لم تظهر الفكرة في القائمة بعد قليل، أعد نشر Apps Script Web App بنفس الرابط أو رابط جديد.');
+    setStatus('ok','تم إرسال الطلب. انتظر ثوانٍ قليلة ثم افتح تبويب الأفكار للتحديث.');
     document.getElementById('inp-name').value='';
     document.getElementById('inp-idea').value='';
     document.getElementById('inp-impl').value='';
+    setTimeout(loadIdeas, 2000);
   }catch(err){
     console.error(err);
-    setStatus('err','تعذر الإرسال حاليًا. عرض الأفكار يعمل، لكن الإرسال يحتاج Apps Script Web App بصلاحية Anyone.');
+    setStatus('err','تعذر الإرسال حاليًا. أعد نشر Apps Script Web App واجعل الوصول <b>Anyone</b>.');
+  }
+}
+
+function findIdea(id){
+  return ideasCache.find(item => item.id === id);
+}
+
+async function editContent(id, field){
+  const item = findIdea(id);
+  if(!item){
+    alert('لم يتم العثور على الفكرة.');
+    return;
+  }
+
+  const oldText = field === 'idea' ? item.idea : item.impl;
+  const promptTitle = field === 'idea' ? '📝 عدل الفكرة' : '🛠️ عدل التنفيذ';
+  const newText = prompt(promptTitle, oldText || '');
+  if(newText === null) return;
+  if(!newText.trim()){
+    alert('النص الجديد لا يمكن أن يكون فارغًا.');
+    return;
+  }
+  if(newText.trim() === oldText.trim()) return;
+
+  const formData = new URLSearchParams();
+  formData.append('action', 'edit');
+  formData.append('id', item.rowIndex);
+  formData.append(field === 'idea' ? 'الفكرة' : 'التنفيذ', newText.trim());
+
+  try{
+    await fetch(scriptURL, { method:'POST', body:formData, mode:'no-cors' });
+    alert('تم إرسال التعديل. حدّث القائمة بعد ثوانٍ قليلة.');
+    setTimeout(loadIdeas, 2000);
+  }catch(err){
+    console.error(err);
+    alert('فشل التعديل. تأكد من صلاحيات Apps Script.');
+  }
+}
+
+async function deleteIdea(id){
+  const item = findIdea(id);
+  if(!item){
+    alert('لم يتم العثور على الفكرة.');
+    return;
+  }
+  if(!confirm('متأكد إنك عايز تحذف الفكرة دي؟')) return;
+
+  const formData = new URLSearchParams();
+  formData.append('action', 'delete');
+  formData.append('id', item.rowIndex);
+
+  try{
+    await fetch(scriptURL, { method:'POST', body:formData, mode:'no-cors' });
+    alert('تم إرسال طلب الحذف. حدّث القائمة بعد ثوانٍ قليلة.');
+    setTimeout(loadIdeas, 2000);
+  }catch(err){
+    console.error(err);
+    alert('فشل الحذف. تأكد من صلاحيات Apps Script.');
   }
 }
 
